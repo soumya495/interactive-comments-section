@@ -10,17 +10,15 @@ function AddComment() {
   const [comment, setComment] = useState('')
 
   function handleSubmit() {
-    const id = uuidv4()
+    const id = currentUser.uid
     set(ref(database, `/${id}`), {
       id: id,
       content: comment,
       createdAt: Date.now(),
-      score: 0,
       user: {
         img: currentUser.photoURL,
         username: currentUser.displayName,
       },
-      replies: [],
     })
     setComment('')
   }
@@ -41,8 +39,8 @@ function AddComment() {
   return (
     <div className='add-comment'>
       <img
-        src={currentUser.photoURL}
-        alt='profile-photo'
+        src={currentUser.photoURL || '../Assets/profile-img.svg'}
+        alt='profile'
         className='profile-photo'
       />
       <textarea

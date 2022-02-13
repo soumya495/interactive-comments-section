@@ -1,6 +1,7 @@
 import { onValue, ref } from 'firebase/database'
 import React, { useState, useEffect } from 'react'
 import { database } from '../firebase-config'
+import ScoreCounter from './ScoreCounter'
 
 function timeSince(date) {
   let seconds = Math.floor((new Date() - date) / 1000)
@@ -69,11 +70,13 @@ const CommentsDisplay = () => {
       {comments.map((comment) => {
         return (
           <div className='comment' key={comment.id}>
-            <p>{comment.score}</p>
-            <img src={comment.user.img} alt='' />
+            <ScoreCounter
+              votes={comment.votes ? comment.votes : null}
+              id={comment.id}
+            />
             <p>{comment.user.username}</p>
-            <p>{timeSince(comment.createdAt)}</p>
             <p>{comment.content}</p>
+            <p>{timeSince(comment.createdAt)}</p>
           </div>
         )
       })}

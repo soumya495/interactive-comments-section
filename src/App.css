@@ -92,3 +92,41 @@ button {
   cursor: pointer;
   text-transform: uppercase;
 }
+
+.comment {
+  margin-block: 1.5rem;
+  padding: 1rem;
+  background-color: var(--nt-white);
+  border-radius: 0.75rem;
+}
+
+.score-counter {
+  width: 2.5rem;
+  background-color: var(--nt-light-gray);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 0.5rem;
+}
+
+.score-counter .score {
+  color: var(--pm-mod-blue);
+  font-weight: 500;
+  font-size: 1rem;
+}
+.fill-icon {
+  filter: invert(1) opacity(0.8) sepia(1) saturate(5) hue-rotate(172deg);
+}
+.score-counter button {
+  width: 100%;
+  background-color: unset;
+  transition: 300ms ease;
+  border-radius: 0.5rem;
+}
+.score-counter button:hover {
+  background-color: hsl(223, 19%, 88%);
+}
+.score-counter button:focus {
+  outline: 1px solid var(--nt-gray-blue);
+}
