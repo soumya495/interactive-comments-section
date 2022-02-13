@@ -30,11 +30,13 @@ function AddComment() {
 
   if (!currentUser) {
     return (
-      <div className='add-comment sign-in-wrapper'>
-        <button className='btn sign-in' onClick={signIn}>
-          <FaGoogle /> Sign In With Google
-        </button>
-        <p>Sign in to add comments, reply to comments</p>
+      <div className='add-comment-wrapper'>
+        <div className='add-comment sign-in-wrapper'>
+          <button className='btn sign-in' onClick={signIn}>
+            <FaGoogle /> Sign In With Google
+          </button>
+          <p>Sign in to add comments, reply to comments</p>
+        </div>
       </div>
     )
   }

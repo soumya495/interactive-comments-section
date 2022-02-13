@@ -1,4 +1,4 @@
-import { onValue, ref } from 'firebase/database'
+import { onValue, ref, update } from 'firebase/database'
 import React, { useState, useEffect } from 'react'
 import { database } from '../firebase-config'
 import ScoreCounter from './ScoreCounter'
@@ -50,7 +50,14 @@ function timeSince(date) {
 }
 
 const CommentsDisplay = () => {
+  // comments from db
   const [comments, setComments] = useState([])
+
+  // for editing comments
+  const [editComment, setEditComment] = useState('')
+  const [editId, setEditId] = useState('')
+  const [isEdit, setIsEdit] = useState(false)
+
   const { currentUser } = useAuth()
 
   useEffect(() => {
@@ -64,6 +71,30 @@ const CommentsDisplay = () => {
       }
     })
   }, [])
+
+  // handle edit
+  function handleEdit(comment) {
+    if (comment.id === editId) {
+      setIsEdit((prev) => !prev)
+    } else {
+      setIsEdit(true)
+    }
+    setEditId(comment.id)
+    setEditComment(comment.content)
+  }
+  // handle comment update textarea changes
+  function handleChange(e) {
+    setEditComment(e.target.value)
+  }
+  // handle update button
+  function onUpdate() {
+    update(ref(database, `/${editId}`), {
+      content: editComment,
+    })
+    setIsEdit(false)
+    setEditComment('')
+    setEditId('')
+  }
 
   if (!comments) return <p>No Comments Yet!</p>
 
@@ -87,7 +118,7 @@ const CommentsDisplay = () => {
                   <p className='username'>
                     {comment.user.username}
                     {currentUser && comment.user.uid === currentUser.uid && (
-                      <p className='current-user-badge'>you</p>
+                      <span className='current-user-badge'>you</span>
                     )}
                   </p>
                   <p className='comment-date'>{timeSince(comment.createdAt)}</p>
@@ -95,7 +126,7 @@ const CommentsDisplay = () => {
                 <div className='right'>
                   {currentUser && comment.user.uid === currentUser.uid && (
                     <>
-                      <p className='edit'>
+                      <p className='edit' onClick={() => handleEdit(comment)}>
                         <img src='../Assets/icon-edit.svg' alt='edit' />
                         Edit
                       </p>
@@ -111,7 +142,30 @@ const CommentsDisplay = () => {
                   </p>
                 </div>
               </div>
-              <div className='comment-text'>{comment.content}</div>
+
+              {!(isEdit && comment.id === editId) && (
+                <div className='comment-text'>{comment.content}</div>
+              )}
+
+              {isEdit && comment.id === editId && (
+                <div className='update-comment'>
+                  <textarea
+                    value={editComment}
+                    onChange={(e) => handleChange(e)}
+                    placeholder='add a comment'
+                    style={{ resize: 'none' }}
+                  />
+                  <button
+                    className={
+                      editComment !== comment.content ? '' : 'update-disable'
+                    }
+                    disabled={editComment === comment.content}
+                    onClick={onUpdate}
+                  >
+                    Update
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )
