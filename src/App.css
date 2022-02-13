@@ -252,3 +252,50 @@ button {
   background-color: hsl(238, 40%, 62%) !important;
   cursor: auto;
 }
+
+.delete-modal-wrapper {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  left: 0;
+  top: 0;
+  z-index: 99;
+  display: grid;
+  place-items: center;
+}
+
+.del-modal {
+  width: 90%;
+  max-width: 320px;
+  background-color: var(--nt-white);
+  padding: 1.5rem;
+  border-radius: 1rem;
+}
+
+.del-modal h3 {
+  color: var(--nt-dark-blue);
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.del-modal p {
+  color: var(--nt-gray-blue);
+  font-size: 0.85rem;
+  letter-spacing: 0.45px;
+  line-height: 1.15rem;
+}
+
+.del-modal-btn-wrapper {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cancel {
+  background-color: var(--nt-gray-blue);
+}
+
+.del {
+  background-color: var(--pm-soft-red);
+}

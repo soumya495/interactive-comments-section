@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { database } from '../firebase-config'
 import ScoreCounter from './ScoreCounter'
 import { useAuth } from '../context/AuthContext'
+import DeleteModal from './DeleteModal'
 
 function timeSince(date) {
   let seconds = Math.floor((new Date() - date) / 1000)
@@ -58,6 +59,10 @@ const CommentsDisplay = () => {
   const [editId, setEditId] = useState('')
   const [isEdit, setIsEdit] = useState(false)
 
+  //for deleting comments
+  const [delId, setDelId] = useState('')
+  const [delModal, setDelModal] = useState(false)
+
   const { currentUser } = useAuth()
 
   useEffect(() => {
@@ -74,7 +79,7 @@ const CommentsDisplay = () => {
 
   // handle edit
   function handleEdit(comment) {
-    if (comment.id === editId) {
+    if (comment.id === editId || editId === '') {
       setIsEdit((prev) => !prev)
     } else {
       setIsEdit(true)
@@ -94,6 +99,16 @@ const CommentsDisplay = () => {
     setIsEdit(false)
     setEditComment('')
     setEditId('')
+  }
+
+  // handle delete modal
+  function handleDelete(comment) {
+    if (comment.id === delId || delId === '') {
+      setDelModal((prev) => !prev)
+    } else {
+      setDelModal(true)
+    }
+    setDelId(comment.id)
   }
 
   if (!comments) return <p>No Comments Yet!</p>
@@ -130,7 +145,10 @@ const CommentsDisplay = () => {
                         <img src='../Assets/icon-edit.svg' alt='edit' />
                         Edit
                       </p>
-                      <p className='delete'>
+                      <p
+                        className='delete'
+                        onClick={() => handleDelete(comment)}
+                      >
                         <img src='../Assets/icon-delete.svg' alt='delete' />
                         Delete
                       </p>
@@ -165,6 +183,15 @@ const CommentsDisplay = () => {
                     Update
                   </button>
                 </div>
+              )}
+
+              {delModal && comment.id === delId && (
+                <DeleteModal
+                  setDelModal={setDelModal}
+                  comment={comment}
+                  setDelId={setDelId}
+                  setDelModal={setDelModal}
+                />
               )}
             </div>
           </div>
