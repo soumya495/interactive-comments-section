@@ -2,6 +2,7 @@ import { onValue, ref } from 'firebase/database'
 import React, { useState, useEffect } from 'react'
 import { database } from '../firebase-config'
 import ScoreCounter from './ScoreCounter'
+import { useAuth } from '../context/AuthContext'
 
 function timeSince(date) {
   let seconds = Math.floor((new Date() - date) / 1000)
@@ -50,6 +51,7 @@ function timeSince(date) {
 
 const CommentsDisplay = () => {
   const [comments, setComments] = useState([])
+  const { currentUser } = useAuth()
 
   useEffect(() => {
     onValue(ref(database), (snapshot) => {
@@ -74,9 +76,43 @@ const CommentsDisplay = () => {
               votes={comment.votes ? comment.votes : null}
               id={comment.id}
             />
-            <p>{comment.user.username}</p>
-            <p>{comment.content}</p>
-            <p>{timeSince(comment.createdAt)}</p>
+            <div className='comment-content'>
+              <div className='comment-top'>
+                <div className='left'>
+                  <img
+                    src={comment.user.img}
+                    alt='profile'
+                    className='comment-profile-img'
+                  />
+                  <p className='username'>
+                    {comment.user.username}
+                    {currentUser && comment.user.uid === currentUser.uid && (
+                      <p className='current-user-badge'>you</p>
+                    )}
+                  </p>
+                  <p className='comment-date'>{timeSince(comment.createdAt)}</p>
+                </div>
+                <div className='right'>
+                  {currentUser && comment.user.uid === currentUser.uid && (
+                    <>
+                      <p className='edit'>
+                        <img src='../Assets/icon-edit.svg' alt='edit' />
+                        Edit
+                      </p>
+                      <p className='delete'>
+                        <img src='../Assets/icon-delete.svg' alt='delete' />
+                        Delete
+                      </p>
+                    </>
+                  )}
+                  <p className='reply'>
+                    <img src='../Assets/icon-reply.svg' alt='reply' />
+                    Reply
+                  </p>
+                </div>
+              </div>
+              <div className='comment-text'>{comment.content}</div>
+            </div>
           </div>
         )
       })}

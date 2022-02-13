@@ -26,18 +26,40 @@ body {
   max-width: 100vw;
   min-height: 100vh;
   overflow-x: hidden;
-  background-color: var(--nt-v-light-gray);
+  background-color: var(--nt-light-gray);
 }
 
 .container {
+  width: 100%;
+  height: 65vh;
+  overflow-y: scroll;
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+}
+.container::-webkit-scrollbar {
+  width: 0 !important;
+}
+.comments-container {
   width: 90%;
   max-width: 800px;
   margin: 0 auto;
-  background-color: rgb(201, 201, 253);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-block: 1.5rem;
+}
+
+.add-comment-wrapper {
+  width: 100%;
+  height: 35vh;
+  display: grid;
+  place-items: center;
+  position: relative;
 }
 
 .add-comment {
-  width: 100%;
+  width: 90%;
+  max-width: 800px;
   min-height: 200px;
   background-color: var(--nt-white);
   border-radius: 0.75rem;
@@ -94,10 +116,15 @@ button {
 }
 
 .comment {
-  margin-block: 1.5rem;
+  margin-bottom: 1.5rem;
   padding: 1rem;
   background-color: var(--nt-white);
   border-radius: 0.75rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  /* height: 150px;
+  overflow-y: scroll; */
 }
 
 .score-counter {
@@ -129,4 +156,78 @@ button {
 }
 .score-counter button:focus {
   outline: 1px solid var(--nt-gray-blue);
+}
+
+.comment-content {
+  width: 100%;
+}
+
+.comment-top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.comment-profile-img {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+}
+
+.comment-top .left,
+.comment-top .right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.username {
+  font-weight: 500;
+  color: var(--nt-dark-blue);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.current-user-badge {
+  padding: 0.1rem 0.35rem;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--nt-white);
+  background-color: var(--pm-mod-blue);
+  border-radius: 0.15rem;
+}
+.comment-date {
+  color: var(--nt-gray-blue);
+}
+
+.comment-top .right {
+  font-weight: 500;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+.comment-top .right p:hover {
+  opacity: 0.7;
+}
+.comment-top .right img {
+  width: 0.65rem;
+  margin-right: 0.15rem;
+}
+.edit,
+.reply {
+  color: var(--pm-mod-blue);
+}
+.delete {
+  color: var(--pm-soft-red);
+}
+
+.comment-text {
+  margin-top: 0.75rem;
+  width: 95%;
+  color: var(--nt-gray-blue);
+  font-size: 0.95rem;
+  letter-spacing: 0.45px;
+  line-height: 1.25rem;
 }

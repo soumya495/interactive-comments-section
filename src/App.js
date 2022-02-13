@@ -8,8 +8,8 @@ function App() {
     <AuthProvider>
       <div className='container'>
         <CommentsDisplay />
-        <AddComment />
       </div>
+      <AddComment />
     </AuthProvider>
   )
 }
