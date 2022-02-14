@@ -299,3 +299,37 @@ button {
 .del {
   background-color: var(--pm-soft-red);
 }
+
+.add-reply {
+  background-color: var(--nt-white);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.75rem;
+}
+
+.add-reply .textarea-wrapper {
+  width: 100%;
+}
+
+.replying-to {
+  font-size: 0.75rem;
+  color: var(--nt-gray-blue);
+  margin-bottom: 0.35rem;
+  letter-spacing: 0.35px;
+}
+
+.replying-to span {
+  font-weight: 500;
+}
+
+.add-reply textarea {
+  width: 100%;
+  padding: 0.5rem;
+  min-height: 100px;
+  border: 1px solid var(--pm-lt-blue);
+  border-radius: 0.35rem;
+}
