@@ -5,6 +5,8 @@ import ScoreCounter from './ScoreCounter'
 import { useAuth } from '../context/AuthContext'
 import DeleteModal from './DeleteModal'
 import AddReply from './AddReply'
+import { v4 as uuidv4 } from 'uuid'
+import ReplyDisplay from './ReplyDisplay'
 
 function timeSince(date) {
   let seconds = Math.floor((new Date() - date) / 1000)
@@ -140,6 +142,7 @@ const CommentsDisplay = () => {
           <>
             <div className='comment' key={comment.id}>
               <ScoreCounter
+                key={uuidv4()}
                 votes={comment.votes ? comment.votes : null}
                 id={comment.id}
               />
@@ -147,7 +150,11 @@ const CommentsDisplay = () => {
                 <div className='comment-top'>
                   <div className='left'>
                     <img
-                      src={comment.user.img}
+                      src={
+                        comment.user.img
+                          ? comment.user.img
+                          : '../Assets/profile-img.svg'
+                      }
                       alt='profile'
                       className='comment-profile-img'
                     />
@@ -212,7 +219,7 @@ const CommentsDisplay = () => {
 
                 {delModal && comment.id === delId && (
                   <DeleteModal
-                    setDelModal={setDelModal}
+                    key={uuidv4()}
                     comment={comment}
                     setDelId={setDelId}
                     setDelModal={setDelModal}
@@ -221,7 +228,24 @@ const CommentsDisplay = () => {
               </div>
             </div>
             {currentUser && isReply && comment.id === repId && (
-              <AddReply comment={comment} />
+              <AddReply
+                key={uuidv4()}
+                comment={comment}
+                setRepId={setRepId}
+                setIsReply={setIsReply}
+              />
+            )}
+            {comment.replies && (
+              <details>
+                <summary className='show-replies'>Show Replies</summary>
+
+                <ReplyDisplay
+                  comment={comment}
+                  replies={comment.replies}
+                  timeSince={timeSince}
+                  key={uuidv4()}
+                />
+              </details>
             )}
           </>
         )

@@ -333,3 +333,43 @@ button {
   border: 1px solid var(--pm-lt-blue);
   border-radius: 0.35rem;
 }
+
+.reply-container {
+  width: 95%;
+  margin-left: auto;
+  border-left: 1px solid var(--nt-gray-blue);
+  margin-bottom: 1rem;
+}
+
+.reply-container .comment {
+  width: 90%;
+  margin-left: auto;
+}
+
+.reply-container .add-reply {
+  width: 90%;
+  margin-left: auto;
+}
+
+.comment-user {
+  font-weight: 500;
+  color: var(--pm-mod-blue);
+}
+
+.show-replies {
+  width: fit-content;
+  margin-left: auto;
+  margin-bottom: 1.25rem;
+  font-weight: 500;
+  color: var(--nt-gray-blue);
+  font-size: 0.85rem;
+  letter-spacing: 0.75px;
+  cursor: pointer;
+}
+
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}

@@ -1,10 +1,19 @@
-import { ref, remove } from 'firebase/database'
+import { ref, remove, update } from 'firebase/database'
 import React from 'react'
 import { database } from '../firebase-config'
 
-const DeleteModal = ({ setDelModal, comment, setDelId }) => {
+const DeleteModal = ({ setDelModal, comment, setDelId, rep, reply }) => {
   function removeComment() {
-    remove(ref(database, `/${comment.id}`))
+    if (rep) {
+      update(ref(database, `/${comment.id}`), {
+        replies: {
+          ...comment.replies,
+          [reply.id]: null,
+        },
+      })
+    } else {
+      remove(ref(database, `/${comment.id}`))
+    }
     setDelId('')
     setDelModal(false)
   }

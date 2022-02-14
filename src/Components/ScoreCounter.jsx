@@ -20,7 +20,7 @@ function getScore(votes) {
   return score
 }
 
-function ScoreCounter({ id, votes }) {
+function ScoreCounter({ id, votes, rep, reply, comment }) {
   const { currentUser } = useAuth()
   const [dispScore, setDispScore] = useState(votes ? getScore(votes) : 0)
   const [upVote, setUpVote] = useState(
@@ -40,26 +40,70 @@ function ScoreCounter({ id, votes }) {
     if (currentUser) {
       if (!upVote) {
         if (!votes) {
-          update(ref(database, `/${id}`), {
-            votes: {
-              [currentUser.uid]: 1,
+          if (rep) {
+            update(ref(database, `/${comment.id}`), {
+              replies: {
+                ...comment.replies,
+                [reply.id]: {
+                  ...reply,
+                  votes: {
+                    [currentUser.uid]: 1,
+                  },
+                },
+              },
+            })
+          } else {
+            update(ref(database, `/${id}`), {
+              votes: {
+                [currentUser.uid]: 1,
+              },
+            })
+          }
+        } else {
+          // already votes
+          if (rep) {
+            update(ref(database, `/${comment.id}`), {
+              replies: {
+                ...comment.replies,
+                [reply.id]: {
+                  ...reply,
+                  votes: {
+                    ...votes,
+                    [currentUser.uid]: 1,
+                  },
+                },
+              },
+            })
+          } else {
+            update(ref(database, `/${id}`), {
+              votes: {
+                ...votes,
+                [currentUser.uid]: 1,
+              },
+            })
+          }
+        }
+      } else {
+        // null check
+        if (rep) {
+          update(ref(database, `/${comment.id}`), {
+            replies: {
+              ...comment.replies,
+              [reply.id]: {
+                ...reply,
+                votes: {
+                  [currentUser.uid]: null,
+                },
+              },
             },
           })
         } else {
           update(ref(database, `/${id}`), {
             votes: {
-              ...votes,
-              [currentUser.uid]: 1,
+              [currentUser.uid]: null,
             },
           })
         }
-      } else {
-        update(ref(database, `/${id}`), {
-          votes: {
-            ...votes,
-            [currentUser.uid]: null,
-          },
-        })
       }
       setUpVote((prev) => !prev)
       setDownVote(false)
@@ -69,26 +113,69 @@ function ScoreCounter({ id, votes }) {
     if (currentUser) {
       if (!downVote) {
         if (!votes) {
-          update(ref(database, `/${id}`), {
-            votes: {
-              [currentUser.uid]: -1,
+          if (rep) {
+            update(ref(database, `/${comment.id}`), {
+              replies: {
+                ...comment.replies,
+                [reply.id]: {
+                  ...reply,
+                  votes: {
+                    [currentUser.uid]: -1,
+                  },
+                },
+              },
+            })
+          } else {
+            update(ref(database, `/${id}`), {
+              votes: {
+                [currentUser.uid]: -1,
+              },
+            })
+          }
+        } else {
+          // already votes
+          if (rep) {
+            update(ref(database, `/${comment.id}`), {
+              replies: {
+                ...comment.replies,
+                [reply.id]: {
+                  ...reply,
+                  votes: {
+                    ...votes,
+                    [currentUser.uid]: -1,
+                  },
+                },
+              },
+            })
+          } else {
+            update(ref(database, `/${id}`), {
+              votes: {
+                ...votes,
+                [currentUser.uid]: -1,
+              },
+            })
+          }
+        }
+      } else {
+        if (rep) {
+          update(ref(database, `/${comment.id}`), {
+            replies: {
+              ...comment.replies,
+              [reply.id]: {
+                ...reply,
+                votes: {
+                  [currentUser.uid]: null,
+                },
+              },
             },
           })
         } else {
           update(ref(database, `/${id}`), {
             votes: {
-              ...votes,
-              [currentUser.uid]: -1,
+              [currentUser.uid]: null,
             },
           })
         }
-      } else {
-        update(ref(database, `/${id}`), {
-          votes: {
-            ...votes,
-            [currentUser.uid]: null,
-          },
-        })
       }
       setDownVote((prev) => !prev)
       setUpVote(false)
