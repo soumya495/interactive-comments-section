@@ -4,7 +4,13 @@ import { useAuth } from '../context/AuthContext'
 import { database } from '../firebase-config'
 import { v4 as uuidv4 } from 'uuid'
 
-const AddReply = ({ comment, setIsReply, setRepId, replyOBJ }) => {
+const AddReply = ({
+  comment,
+  setIsReply,
+  setRepId,
+  replyOBJ,
+  setReplyAdded,
+}) => {
   const { currentUser } = useAuth()
   const [reply, setReply] = useState('')
 
@@ -49,7 +55,8 @@ const AddReply = ({ comment, setIsReply, setRepId, replyOBJ }) => {
       })
     }
     setIsReply(false)
-    setRepId('')
+    // setRepId('')
+    setReplyAdded(true)
   }
 
   return (

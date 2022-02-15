@@ -26,7 +26,7 @@ function AddComment() {
     setComment('')
   }
 
-  if (pending) return <p>Loading ...</p>
+  // if (pending) return <img src='../Assets/spinner.gif' alt='loading...' />
 
   if (!currentUser) {
     return (
@@ -56,7 +56,14 @@ function AddComment() {
           style={{ resize: 'none' }}
         />
         <div className='comment-btn-wrapper'>
-          <button onClick={handleSubmit}>Send</button>
+          <img
+            src={currentUser.photoURL || '../Assets/profile-img.svg'}
+            alt='profile'
+            className='profile-photo-mob'
+          />
+          <button className='comment-send' onClick={handleSubmit}>
+            Send
+          </button>
           <button onClick={signUserOut}>Sign Out</button>
         </div>
       </div>

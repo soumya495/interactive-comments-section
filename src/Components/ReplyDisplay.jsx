@@ -7,7 +7,7 @@ import AddReply from './AddReply'
 import { update, ref } from 'firebase/database'
 import { database } from '../firebase-config'
 
-const ReplyDisplay = ({ comment, replies, timeSince, isCommentBox }) => {
+const ReplyDisplay = ({ comment, replies, timeSince, setReplyAdded }) => {
   // for editing comments
   const [editComment, setEditComment] = useState('')
   const [editId, setEditId] = useState('')
@@ -81,11 +81,11 @@ const ReplyDisplay = ({ comment, replies, timeSince, isCommentBox }) => {
   function getReplies(replies) {
     const repliesArr = Object.values(replies)
     repliesArr.sort((a, b) =>
-      a.createdAt > b.createdAt ? 1 : b.createdAt > a.createdAt ? -1 : 0
+      a.createdAt > b.createdAt ? -1 : b.createdAt > a.createdAt ? 1 : 0
     )
     return repliesArr.map((reply) => {
       return (
-        <>
+        <React.Fragment key={uuidv4()}>
           <div className='comment' key={reply.id}>
             <ScoreCounter
               key={uuidv4()}
@@ -185,7 +185,7 @@ const ReplyDisplay = ({ comment, replies, timeSince, isCommentBox }) => {
               replyOBJ={reply}
             />
           )}
-        </>
+        </React.Fragment>
       )
     })
   }

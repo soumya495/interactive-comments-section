@@ -166,6 +166,7 @@ button {
 .comment-top {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
 }
@@ -179,6 +180,7 @@ button {
 .comment-top .left,
 .comment-top .right {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem;
   font-size: 0.9rem;
@@ -337,7 +339,7 @@ button {
 .reply-container {
   width: 95%;
   margin-left: auto;
-  border-left: 1px solid var(--nt-gray-blue);
+  border-left: 1px solid var(--pm-lt-blue);
   margin-bottom: 1rem;
 }
 
@@ -356,6 +358,13 @@ button {
   color: var(--pm-mod-blue);
 }
 
+.no-comments {
+  text-align: center;
+  font-size: 3rem;
+  margin-top: 4rem;
+  color: var(--nt-gray-blue);
+}
+
 .show-replies {
   width: fit-content;
   margin-left: auto;
@@ -372,4 +381,85 @@ details > summary {
 }
 details > summary::-webkit-details-marker {
   display: none;
+}
+
+.loader {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* mobile */
+.profile-photo-mob {
+  display: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+}
+
+@media (max-width: 600px) {
+  .profile-photo {
+    display: none;
+  }
+  .profile-photo-mob {
+    display: block;
+  }
+  .add-comment,
+  .add-reply {
+    flex-direction: column;
+  }
+  .add-comment textarea,
+  .add-reply textarea {
+    width: 100%;
+    min-height: 100px;
+  }
+  .comment-btn-wrapper {
+    width: 100%;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .comment-send {
+    margin-left: auto;
+  }
+  .comment {
+    flex-direction: column-reverse;
+  }
+  .score-counter {
+    width: fit-content;
+    flex-direction: row;
+    align-items: center;
+  }
+  .score-counter button:hover,
+  .score-counter button:focus {
+    background-color: unset !important;
+  }
+  .minus {
+    margin-bottom: 7px;
+  }
+  .comment {
+    position: relative;
+  }
+  .right {
+    position: absolute;
+    bottom: 1.25rem;
+    right: 1rem;
+  }
+
+  .reply-container {
+    width: 98%;
+  }
+
+  .reply-container .comment,
+  .reply-container .add-reply {
+    width: 95%;
+  }
+  .container {
+    height: 70vh;
+  }
+  .add-comment-wrapper {
+    height: 30vh;
+  }
 }

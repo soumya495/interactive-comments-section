@@ -56,6 +56,7 @@ function timeSince(date) {
 const CommentsDisplay = () => {
   // comments from db
   const [comments, setComments] = useState([])
+  const [commentsLoading, setCommentsLoading] = useState(false)
 
   // for editing comments
   const [editComment, setEditComment] = useState('')
@@ -69,17 +70,20 @@ const CommentsDisplay = () => {
   // for replying
   const [repId, setRepId] = useState('')
   const [isReply, setIsReply] = useState(false)
+  const [replyAdded, setReplyAdded] = useState(false)
 
-  const { currentUser } = useAuth()
+  const { currentUser, pending } = useAuth()
 
   useEffect(() => {
-    onValue(ref(database), (snapshot) => {
+    setCommentsLoading(true)
+    onValue(ref(database), async (snapshot) => {
       setComments([])
-      const data = snapshot.val()
+      const data = await snapshot.val()
       if (data) {
         Object.values(data).map((comment) => {
           setComments((oldComments) => [...oldComments, comment])
         })
+        setCommentsLoading(false)
       }
     })
   }, [])
@@ -133,13 +137,19 @@ const CommentsDisplay = () => {
     setEditComment('')
   }
 
-  if (!comments) return <p>No Comments Yet!</p>
+  if (pending || commentsLoading)
+    return (
+      <img className='loader' src='../Assets/loader.gif' alt='loading...' />
+    )
+
+  if (comments.length === 0 && !pending)
+    return <p className='no-comments'>No Comments Yet!</p>
 
   return (
     <div className='comments-container'>
       {comments.map((comment) => {
         return (
-          <>
+          <React.Fragment key={uuidv4()}>
             <div className='comment' key={comment.id}>
               <ScoreCounter
                 key={uuidv4()}
@@ -233,10 +243,11 @@ const CommentsDisplay = () => {
                 comment={comment}
                 setRepId={setRepId}
                 setIsReply={setIsReply}
+                setReplyAdded={setReplyAdded}
               />
             )}
             {comment.replies && (
-              <details>
+              <details open={replyAdded && comment.id === repId}>
                 <summary className='show-replies'>Show Replies</summary>
 
                 <ReplyDisplay
@@ -244,10 +255,11 @@ const CommentsDisplay = () => {
                   replies={comment.replies}
                   timeSince={timeSince}
                   key={uuidv4()}
+                  setReplyAdded={setReplyAdded}
                 />
               </details>
             )}
-          </>
+          </React.Fragment>
         )
       })}
     </div>
