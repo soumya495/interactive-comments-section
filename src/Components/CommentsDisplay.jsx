@@ -49,7 +49,7 @@ function timeSince(date) {
   }
   return (
     Math.floor(seconds) +
-    `${Math.floor(seconds) <= 1 ? ' second' : ' seconds'} ago`
+    `${Math.floor(seconds) === 1 ? ' second' : ' seconds'} ago`
   )
 }
 
