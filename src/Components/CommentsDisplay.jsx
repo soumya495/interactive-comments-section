@@ -83,8 +83,8 @@ const CommentsDisplay = () => {
         Object.values(data).map((comment) => {
           setComments((oldComments) => [...oldComments, comment])
         })
-        setCommentsLoading(false)
       }
+      setCommentsLoading(false)
     })
   }, [])
 
