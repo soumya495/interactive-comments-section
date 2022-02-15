@@ -85,8 +85,8 @@ const ReplyDisplay = ({ comment, replies, timeSince, setReplyAdded }) => {
     )
     return repliesArr.map((reply) => {
       return (
-        <React.Fragment key={uuidv4()}>
-          <div className='comment' key={reply.id}>
+        <React.Fragment>
+          <div className='comment'>
             <ScoreCounter
               key={uuidv4()}
               votes={reply.votes ? reply.votes : null}

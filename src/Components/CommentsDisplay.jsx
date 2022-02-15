@@ -101,9 +101,9 @@ const CommentsDisplay = () => {
     setRepId('')
   }
   // handle comment update textarea changes
-  function handleChange(e) {
-    setEditComment(e.target.value)
-  }
+  // function handleChange(e) {
+  //   setEditComment(e.target.value)
+  // }
   // handle update button
   function onUpdate() {
     update(ref(database, `/${editId}`), {
@@ -149,8 +149,8 @@ const CommentsDisplay = () => {
     <div className='comments-container'>
       {comments.map((comment) => {
         return (
-          <React.Fragment key={uuidv4()}>
-            <div className='comment' key={comment.id}>
+          <React.Fragment>
+            <div className='comment'>
               <ScoreCounter
                 key={uuidv4()}
                 votes={comment.votes ? comment.votes : null}
@@ -209,7 +209,7 @@ const CommentsDisplay = () => {
                   <div className='update-comment'>
                     <textarea
                       value={editComment}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => setEditComment(e.target.value)}
                       placeholder='edit your comment'
                       style={{ resize: 'none' }}
                     />
