@@ -70,7 +70,7 @@ const CommentsDisplay = () => {
   // for replying
   const [repId, setRepId] = useState('')
   const [isReply, setIsReply] = useState(false)
-  const [replyAdded, setReplyAdded] = useState(false)
+  // const [replyAdded, setReplyAdded] = useState(false)
 
   const { currentUser, pending } = useAuth()
 
@@ -243,11 +243,11 @@ const CommentsDisplay = () => {
                 comment={comment}
                 setRepId={setRepId}
                 setIsReply={setIsReply}
-                setReplyAdded={setReplyAdded}
+                // setReplyAdded={setReplyAdded}
               />
             )}
             {comment.replies && (
-              <details open={replyAdded && comment.id === repId}>
+              <details open>
                 <summary className='show-replies'>Show Replies</summary>
 
                 <ReplyDisplay
@@ -255,7 +255,7 @@ const CommentsDisplay = () => {
                   replies={comment.replies}
                   timeSince={timeSince}
                   key={uuidv4()}
-                  setReplyAdded={setReplyAdded}
+                  // setReplyAdded={setReplyAdded}
                 />
               </details>
             )}
