@@ -15,48 +15,52 @@ const AddReply = ({
   const [reply, setReply] = useState('')
 
   function handleReply() {
-    const id = uuidv4()
-    if (comment.replies) {
-      update(ref(database, `/${comment.id}`), {
-        replies: {
-          ...comment.replies,
-          [id]: {
-            id: id,
-            content: reply,
-            createdAt: Date.now(),
-            user: {
-              uid: currentUser.uid,
-              img: currentUser.photoURL,
-              username: currentUser.displayName
-                .replace(/[^A-Za-z]/g, '')
-                .toLowerCase(),
+    if (reply !== '') {
+      const id = uuidv4()
+      if (comment.replies) {
+        update(ref(database, `/${comment.id}`), {
+          replies: {
+            ...comment.replies,
+            [id]: {
+              id: id,
+              content: reply,
+              createdAt: Date.now(),
+              user: {
+                uid: currentUser.uid,
+                img: currentUser.photoURL,
+                username: currentUser.displayName
+                  .replace(/[^A-Za-z]/g, '')
+                  .toLowerCase(),
+              },
+              replyTo: replyOBJ
+                ? replyOBJ.user.username
+                : comment.user.username,
             },
-            replyTo: replyOBJ ? replyOBJ.user.username : comment.user.username,
           },
-        },
-      })
-    } else {
-      update(ref(database, `/${comment.id}`), {
-        replies: {
-          [id]: {
-            id: id,
-            content: reply,
-            createdAt: Date.now(),
-            user: {
-              uid: currentUser.uid,
-              img: currentUser.photoURL,
-              username: currentUser.displayName
-                .replace(/[^A-Za-z]/g, '')
-                .toLowerCase(),
+        })
+      } else {
+        update(ref(database, `/${comment.id}`), {
+          replies: {
+            [id]: {
+              id: id,
+              content: reply,
+              createdAt: Date.now(),
+              user: {
+                uid: currentUser.uid,
+                img: currentUser.photoURL,
+                username: currentUser.displayName
+                  .replace(/[^A-Za-z]/g, '')
+                  .toLowerCase(),
+              },
+              replyTo: comment.user.username,
             },
-            replyTo: comment.user.username,
           },
-        },
-      })
+        })
+      }
+      setIsReply(false)
+      // setRepId('')
+      setReplyAdded(true)
     }
-    setIsReply(false)
-    // setRepId('')
-    setReplyAdded(true)
   }
 
   return (

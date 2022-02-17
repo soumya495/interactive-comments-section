@@ -10,20 +10,22 @@ function AddComment() {
   const [comment, setComment] = useState('')
 
   function handleSubmit() {
-    const id = uuidv4()
-    set(ref(database, `/${id}`), {
-      id: id,
-      content: comment,
-      createdAt: Date.now(),
-      user: {
-        img: currentUser.photoURL,
-        username: currentUser.displayName
-          .replace(/[^A-Za-z]/g, '')
-          .toLowerCase(),
-        uid: currentUser.uid,
-      },
-    })
-    setComment('')
+    if (comment !== '') {
+      const id = uuidv4()
+      set(ref(database, `/${id}`), {
+        id: id,
+        content: comment,
+        createdAt: Date.now(),
+        user: {
+          img: currentUser.photoURL,
+          username: currentUser.displayName
+            .replace(/[^A-Za-z]/g, '')
+            .toLowerCase(),
+          uid: currentUser.uid,
+        },
+      })
+      setComment('')
+    }
   }
 
   // if (pending) return <img src='../Assets/spinner.gif' alt='loading...' />
